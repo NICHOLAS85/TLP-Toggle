@@ -13,10 +13,12 @@ if [ "$CState" = "battery" ]; then
 fi
 
 while true; do  #Loop makes sure password dialog appears every time a failed attempt occurs
-    if [ $Wrongpass = 0 ]; then
-        password=$(kdialog --title "Toggle TLP($CMode)" --password "Enter password")
-    else
-        password=$(kdialog --title "Toggle TLP($CMode)" --password "Try Again") #Changes prompt when an incorrect password is entered
+    if ! sudo -n true; then
+        if [ $Wrongpass = 0 ]; then
+            password=$(kdialog --title "Toggle TLP($CMode)" --password "Enter password")
+        else
+            password=$(kdialog --title "Toggle TLP($CMode)" --password "Try Again") #Changes prompt when an incorrect password is entered
+        fi
     fi
 
     if [ $? = 0 ]; then #checks if ok or cancel was selected
