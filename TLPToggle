@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 CState=$(tlp-stat -s | grep -oP 'Power source   = \K.*')
 CMode=$(tlp-stat -s | grep -oP 'Mode           = \K.*')
 Wrongpass=0 #first time run
@@ -15,9 +15,9 @@ fi
 while true; do  #Loop makes sure password dialog appears every time a failed attempt occurs
     if ! sudo -n true; then
         if [ $Wrongpass = 0 ]; then
-            password=$(kdialog --title "Toggle TLP($CMode)" --password "Enter password")
+            passwd=$(kdialog --title "Toggle TLP($CMode)" --password "Enter password")
         else
-            password=$(kdialog --title "Toggle TLP($CMode)" --password "Try Again") #Changes prompt when an incorrect password is entered
+            passwd=$(kdialog --title "Toggle TLP($CMode)" --password "Try Again") #Changes prompt when an incorrect password is entered
         fi
     fi
 
@@ -25,7 +25,7 @@ while true; do  #Loop makes sure password dialog appears every time a failed att
         echo "Selected: OK"
         if tlp-stat -s | grep -q 'Mode           = AC'; then    #Checks for the current mode and toggles it in the following statements
             echo "Changing TLP to BAT mode ($CState connected)"
-            if echo "$password" | sudo -S tlp BAT; then
+            if echo "$passwd" | sudo -S tlp BAT; then
                 kdialog --title "TLP mode BAT" --passivepopup "Power Savings on ($CState connected)" 3
                 break
             else
@@ -34,7 +34,7 @@ while true; do  #Loop makes sure password dialog appears every time a failed att
             fi
         else
             echo "Changing TLP to AC mode ($CState connected)"
-            if echo "$password" | sudo -S tlp AC; then
+            if echo "$passwd" | sudo -S tlp AC; then
                 kdialog --title "TLP mode AC" --passivepopup "Power Savings off ($CState connected)" 3
                 break
             else
