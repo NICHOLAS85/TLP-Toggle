@@ -26,7 +26,7 @@ while true; do  #Loop makes sure password dialog appears every time a failed att
         if tlp-stat -s | grep -q 'Mode           = AC'; then    #Checks for the current mode and toggles it in the following statements
             echo "Changing TLP to BAT mode ($CState connected)"
             if echo "$passwd" | sudo -S tlp BAT; then
-                kdialog --title "TLP mode BAT" --passivepopup "Power Savings on ($CState connected)" 3
+                kdialog --title "BAT mode" --passivepopup "Power Savings on ($CState connected)" 3
                 break
             else
                 echo "Wrong password entered"
